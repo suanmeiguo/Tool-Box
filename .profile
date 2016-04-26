@@ -38,10 +38,10 @@ alias dclean="docker ps -aq | xargs docker rm -f;docker images -q | xargs docker
 # multilogin: login to multiple server with same name in the same time
 ssh_login () {
     echo "csshx-ing into all instances: $1"
-    aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=$1" | grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn} PublicIpAddress | cut -f2 -d":" | sed 's/[\",]//g' | xargs csshx --login <aws-user-name>
+    aws ec2 describe-instances --region <aws-region> --filters "Name=tag:Name,Values=$1" | grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn} PublicIpAddress | cut -f2 -d":" | sed 's/[\",]//g' | xargs csshx --login <aws-user-name>
 }
 
 ssh_vpc () {
     echo "csshx-ing into all instances: $1"
-    aws ec2 describe-instances --region us-east-1 --filters "Name=tag:Name,Values=$1" | grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn} PrivateIpAddress\" | cut -f2 -d":" | sed 's/[\",]//g' | uniq -u | xargs csshx --login <aws-user-name>
+    aws ec2 describe-instances --region <aws-region> --filters "Name=tag:Name,Values=$1" | grep --color=auto --exclude-dir={.bzr,CVS,.git,.hg,.svn} PrivateIpAddress\" | cut -f2 -d":" | sed 's/[\",]//g' | uniq -u | xargs csshx --login <aws-user-name>
 }
