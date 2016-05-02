@@ -21,12 +21,17 @@ class TestSortingAlgorithm(object):
         print fn
         assert(fn([]) == [])
 
-    def sort_normal(self, fn):
+    def single_element(self, fn):
+        ls = [5]
+        assert(fn(ls) == ls)
+
+    def sort_sorted(self, fn):
         ls = [-1, 0, 1, 2, 3]
         assert(fn(ls) == ls)
 
     def random(self, fn):
-        ls = []
+        ls = [5, 2, 6, 8, 0, 4, -2, -1]
+        assert(fn(ls) == sorted(ls))
 
     def tuple_compatiable(self, fn):
         tp = (0, 4, -3, 6, 20, 40.0)
@@ -37,9 +42,10 @@ class TestSortingAlgorithm(object):
         assert_raises(TypeError, fn, s)
 
     def test_all(self):
-        for fn in (sorted, bubble_sort.sort):
+        for fn in (bubble_sort.sort, insertion_sort.sort):
             yield self.empty_input, fn
-            yield self.sort_normal, fn
+            yield self.single_element, fn
+            yield self.sort_sorted, fn
             yield self.random, fn
             yield self.tuple_compatiable, fn
             yield self.string_compatiable, fn
